@@ -1,21 +1,10 @@
-FROM python:3.6-alpine
+FROM mariadb
+
 MAINTAINER ExcelE
 
-ENV PYTHONUNBUFFERED 1
+ENV MYSQL_DATABASE=DB1 \
+    MYSQL_ROOT_PASSWORD=changepassword
 
-COPY ./requirements.txt /requirements.txt
-# Installing Postgres and its dependencies
-RUN apk add --update --no-cache postgresql-client
-RUN apk add --update --no-cache --virtual .tmp-build-dev \
-    gcc libc-dev linux-headers postgresql-dev
+ADD ./pre-start/init.sql /docker-entrypoint-initdb.d
 
-RUN pip install -r /requirements.txt
-# Removing Postgres dependencies, minimizing the container
-RUN apk del .tmp-build-dev
-
-RUN mkdir /app
-WORKDIR /app
-COPY ./app /app
-
-RUN adduser -D user
-USER user
+EXPOSE 3306
