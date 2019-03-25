@@ -2,7 +2,7 @@ from .user_dependencies import *
 from flask import session
 
 
-class Register(Resource):
+class Login(Resource):
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('username')
@@ -11,12 +11,12 @@ class Register(Resource):
         json_data = request.get_json(force=True)
         
         try:
-            create = create_new_user(json_data)
+            res = check_credentials(json_data)
         except Exception as e:
-            response = jsonify({"msg": "User exists"})
-            response.status_code = 409
+            response = jsonify({"msg": "User/pass combo incorrect."})
+            response.status_code = 401
             return response
 
-        response = jsonify({"msg": "Registration complete"})
-        response.status_code = 201 
+        response = jsonify({"msg": "Logged in."})
+        response.status_code = 200
         return response
