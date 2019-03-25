@@ -12,6 +12,15 @@ Tools:
 2. Run `docker-compose up --build` to see if it works.
 3. To run database in the background, run `docker-compose up --build -d`
 
+#### Setting up server:
+1. Install virtualenv: `pip install virtualenv`
+1. Create environment: `virtualenv venv`
+1. Switch environment: 
+    * Windows: `venv\Scripts\activate` 
+    * Mac: `source venv/bin/activate`
+1. Install dependencies: `pip install -r requirements.txt`
+1. Run server: `python app/app.py`
+
 #### Running sample:
 1. Install mysql connector: `pip install mysql-connector`
 2. `python app/populate.py init`

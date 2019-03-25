@@ -1,0 +1,6 @@
+{
+    "user": "root",
+    "password": "changepassword",
+    "host": "127.0.0.1",
+    "database": "DB1"
+}
