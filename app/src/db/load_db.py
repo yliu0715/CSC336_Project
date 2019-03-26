@@ -1,13 +1,11 @@
 #### Load Database Engine:
 from .DB_CONN import DB_CONN
-import time
+import time, os
 
-TABLES = ["USERS", "POSTS", "PROFILES",
-            "FLASK-JWT-AUTH"]
+APP_MODE = os.getenv('DEBUG', True)
 
 try:
     DB = DB_CONN()
-    print("\n[INFO]: Database initialization done.")
 except Exception as e:
     raise e
 
@@ -42,15 +40,18 @@ def query_sample():
     result[1] = result[1].decode('utf-8')
     print("[DEBUG]: Inserting and querying test account... ", end="")
     if(result[0] == 'test1' and result[1] == 'testpass'):
-        print("OK")
+        print("OK\n")
 
 try:
-    drop_table()
-    print("[DEBUG]: Dropped a previous user tables system... ")
+    if (APP_MODE):
+        print("\n[DEBUG]: Dropped a previous user tables system... ", end="")
+        drop_table()
+        print("OK ")
+        DB.create(comms)
+        query_sample()
     print("[INFO]: Checking/creating user tables system... ", end="")
     DB.create(comms)
     print("done.", end="\n")
-    query_sample()
 except Exception as e:
     raise e
 

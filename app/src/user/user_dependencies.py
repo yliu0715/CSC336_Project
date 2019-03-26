@@ -15,9 +15,7 @@ def check_credentials(params):
     """.format(params['username'], params['password'])
 
     DB.custom_comms(query)
-    result = DB.cursor.fetchall()
-    print(result)
-
+    result = [x for x in DB.cursor.fetchall()[0]]
     return result
     
 
@@ -28,9 +26,10 @@ def create_new_user(params):
     hashed = params['password']
     # hashed = bcrypt.hashpw(params['password'].encode('utf8'), bcrypt.gensalt())
 
+    username = params['username'].lower()
     table = "USERS"
     columns = "username, password"
-    values = f"'{params['username']}', '{str(hashed)}'"
+    values = f"'{username}', '{str(hashed)}'"
 
     try:
         DB.insert(table, columns, values)
