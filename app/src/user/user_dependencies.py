@@ -6,34 +6,38 @@ import bcrypt
 def check_credentials(params):
 
     DB = DB_CONN()
-
+    username = params['username'].lower()
+    hashed = bcrypt.hashpw(params['password'].encode('utf8'), bcrypt.gensalt())
+    
     query = """
-    SELECT *
-    FROM USERS
-    WHERE username = '{}'
-    AND password = '{}' 
-    """.format(params['username'], params['password'])
+    SELECT * FROM USERS WHERE username = %s;
+    """
 
-    DB.custom_comms(query)
-    result = [x for x in DB.cursor.fetchall()[0]]
-    return result
+    try:
+        DB.cursor.execute(query, (username,))
+        DB.cnx.commit()
+        if (DB.cursor.fetchall()[0]['password'] == hashed):
+            return True
+    except:
+        pass
+
+    return False
     
 
 def create_new_user(params):
 
     DB = DB_CONN()
-
-    hashed = params['password']
-    # hashed = bcrypt.hashpw(params['password'].encode('utf8'), bcrypt.gensalt())
-
+    hashed = bcrypt.hashpw(params['password'].encode('utf8'), bcrypt.gensalt())
     username = params['username'].lower()
-    table = "USERS"
-    columns = "username, password"
-    values = f"'{username}', '{str(hashed)}'"
+
+    query = """
+    INSERT INTO USERS (username, password) VALUES (%s, %s)
+    """
 
     try:
-        DB.insert(table, columns, values)
+        DB.cursor.execute(query, (username, hashed))
+        DB.cnx.commit()
     except Exception as e:
         raise e
 
-    return "OK"
+    return True

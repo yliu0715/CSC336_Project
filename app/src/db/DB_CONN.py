@@ -4,6 +4,7 @@
 
 import mysql.connector, json, os
 from mysql.connector import errorcode
+import bcrypt
 
 # from app import __location__
 
@@ -27,7 +28,7 @@ class TableDoesNotExistError(Error):
 class DB_CONN:
     def __init__(self):
         self.cnx = mysql.connector.connect(**config)
-        self.cursor = self.cnx.cursor(buffered=True)
+        self.cursor = self.cnx.cursor(buffered=True, dictionary=True)
 
     def query(self, table, columns):
         try:
@@ -70,8 +71,9 @@ class DB_CONN:
         try:
             cursor = self.cursor
             # self.validate_input({table, columns, values})
-            qry = "INSERT INTO {} ({}) VALUES ({});".format(table, columns, values)
-            cursor.execute(qry)
+            qry = "INSERT INTO %s (%s) VALUES (%s);"
+            data = (table, columns, values)
+            cursor.execute(qry, data)
             self.cnx.commit()
             return True      
         except Exception as e:

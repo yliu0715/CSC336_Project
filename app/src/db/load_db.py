@@ -35,11 +35,10 @@ def drop_table():
 def query_sample():
     DB.custom_comms(sample_insert)
     DB.custom_comms(sample_query)
-    result = [x for x in DB.cursor.fetchall()[0]]
+    result = [x for x in DB.cursor.fetchall()]
     # Convert to string
-    result[1] = result[1].decode('utf-8')
     print("[DEBUG]: Inserting and querying test account... ", end="")
-    if(result[0] == 'test1' and result[1] == 'testpass'):
+    if(result[0]['username'] == 'test1' and result[0]['password'].decode('utf-8') == 'testpass'):
         print("OK\n")
 
 try:
