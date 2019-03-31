@@ -22,7 +22,7 @@ class SignIn extends Component {
             <h2 className="text-center">Login Form</h2>
             <div className="form-group">
               <label>Username</label>
-              <input type="email" className="form-control" placeholder="Enter Username"/>
+              <input type="text" className="form-control" placeholder="Enter Username"/>
             </div>
             <div className="form-group">
               <label>Password</label>
