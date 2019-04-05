@@ -1,0 +1,23 @@
+.room-detail {
+	border: 1px solid;
+	border-radius: 15px;
+	text-align: center;
+	margin: 5% 10%;
+	color: white;
+	background-color: grey;
+	overflow: hidden;
+}
+
+.room-info {
+	padding: 20px;
+}
+
+.heading {
+	color: white;
+	background-color: black;
+	padding: 5px;
+}
+
+.join {
+	margin-top: 20px;
+}
