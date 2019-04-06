@@ -1,29 +1,12 @@
 import React from 'react';
-import Navbar from '../Navbar/Navbar';
-import './Homepage.css'
 
+import ListOfRooms from '../ListOfRooms/ListOfRooms';
 
-const Homepage = () => {
-
+const Homepage = (props) => {
   return (
-    <div className="text-center">
-      <Navbar/>
-      <br/>
-      <br/>
-      <br/>
-      <button className="roomButton">Room 1</button>
-      <br/>
-      <br/>
-      <button className="roomButton">Room 2</button>
-      <br/>
-      <br/>
-      <button className="roomButton">Room 3</button>
-      <br/>
-      <br/>
-      <button className="roomButton">Room 4</button>
-
+    <div>
+      <ListOfRooms users={props.users} />
     </div>
-    
   )
 }
 
