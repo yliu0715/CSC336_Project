@@ -1,14 +1,13 @@
 .roomButton{
     background:rgb(112, 108, 108);
     color:#fff;
-    border:none;
+    border: 5px solid white;
     position:relative;
-    font-size: 50px;
+    font-size: 20px;
     font-family: "Open Sans", Helvetica;
-    padding:80px 185px;
+    padding:50px 100px;
     cursor:pointer;
     transition:800ms ease all;
-    outline:none;
   }
 .roomButton:hover{
     background:#fff;
