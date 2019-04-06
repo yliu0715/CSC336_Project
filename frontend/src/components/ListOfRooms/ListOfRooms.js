@@ -1,9 +1,14 @@
 import React from 'react';
+import Room from '../Room/Room';
 
-const ListOfRooms = () => {
+const ListOfRooms = (props) => {
   return (
     <div>
-      Renders a ListOfRooms
+      {
+        props.users.map(user => {
+          return <Room id={user.id} title={user.title} body={user.body} />
+        })
+      }
     </div>
   )
 }
