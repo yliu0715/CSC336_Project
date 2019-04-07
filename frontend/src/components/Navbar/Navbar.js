@@ -17,7 +17,7 @@ const Navbar = (props) => {
               <div className="dropdown-menu">
                 <Link className="dropdown-item" to="#">My Profile</Link>
                 <Link className="dropdown-item" to="#">My Rooms</Link>
-                <Link className="dropdown-item" to="#" onClick={props.onLogOut}>Logout</Link>
+                <button className="dropdown-item" onClick={props.onLogOut}>Logout</button>
               </div>
             </li>
           </ul>
