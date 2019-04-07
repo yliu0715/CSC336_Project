@@ -62,7 +62,7 @@ class DB_CONN:
         """
         try:
             cursor = self.cursor
-            cursor.execute(comms)
+            cursor.execute(comms, multi=True)
             self.cnx.commit()
         except Exception as e:
             self.raise_error("CUSTOM_COMMS", comms, str(e))
