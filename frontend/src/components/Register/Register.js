@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {  Link } from 'react-router-dom';
 
 import './Register.css';
 
@@ -35,7 +36,7 @@ class Register extends Component {
               <input type="password" className="form-control" placeholder="Enter Password" onChange={this.onPasswordChange}/>
             </div>
             <div>
-              <a href="#">{"Already Have An Account? Login"}</a>
+              <Link className="nav-link" to="/Login">Already Have an Account? Login</Link>
             </div>
             <div className="text-center mt-3">
               <button type="submit" className="btn btn-primary btn-block">Register</button>
