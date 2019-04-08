@@ -1,4 +1,8 @@
 .roomButton{
+	margin-top: 4%;
+	margin-bottom: -5%;
+	left: 20%;
+	width: 60%;
     background:rgb(112, 108, 108);
     color:#fff;
     border: 5px solid white;
@@ -10,8 +14,8 @@
     transition:800ms ease all;
   }
 .roomButton:hover{
-    background:#fff;
-    color:rgb(112, 108, 108);
+    background:#bfbfbf;
+    color:black;
   }
 .roomButton:before,button:after{
     content:'';

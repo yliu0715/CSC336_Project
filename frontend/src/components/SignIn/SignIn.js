@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import './SignIn.css';
 
@@ -29,7 +30,7 @@ class SignIn extends Component {
               <input type="password" className="form-control" placeholder="Enter Password"/>
             </div>
             <div>
-              <a href="#">{"Don't Have An Account? Register"}</a>
+              <Link className="nav-link" to="/Register">Don't Have an Account? Register</Link>
             </div>
             <div className="text-center mt-3">
               <button type="submit" className="btn btn-primary btn-block">Login</button>
