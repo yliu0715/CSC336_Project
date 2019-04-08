@@ -14,53 +14,43 @@ comms = {}
 #### Loading the USER TABLE DB
 comms['users'] = """
 CREATE TABLE IF NOT EXISTS USERS (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
     password VARBINARY(255) NOT NULL
 );
 """
 
+
 #### Loading the Rooms TABLE DB
 comms['room_info'] = """
 CREATE TABLE IF NOT EXISTS ROOM (
-    id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(255),
+    name VARCHAR(255) PRIMARY KEY,
     location VARCHAR(255),
-    description TEXT,
-    required_skills VARCHAR(255),
-    PRIMARY KEY(id)
+    description TEXT
 );
 """
 
 comms['skills'] = """
 CREATE TABLE IF NOT EXISTS SKILLS (
     name VARCHAR(255) NOT NULL,
-    programming_language BOOLEAN
-);
-"""
-
-comms['rooms_to_skills'] = """
-CREATE TABLE IF NOT EXISTS rooms_to_skills (
-    language VARCHAR(255) NOT NULL,
-    room_id INT NOT NULL,
-    FOREIGN KEY (room_id) REFERENCES ROOM (id),
-    PRIMARY KEY(language)
+    room_name VARCHAR(255),
+    FOREIGN KEY (room_name) REFERENCES ROOM (name)
 );
 """
 
 #### Loading the Rooms TABLE DB
 comms['rooms'] = """
 CREATE TABLE IF NOT EXISTS ROOMS (
-    room_id INT NOT NULL,
-    member_id INT,
+    room VARCHAR(255),
+    user_id INT,
     is_owner BOOLEAN DEFAULT 0,
 
-    FOREIGN KEY (member_id) 
-        REFERENCES USERS (id)
-        ON DELETE SET NULL
+    FOREIGN KEY (room) REFERENCES ROOM (name),
+    FOREIGN KEY (user_id) 
+        REFERENCES USERS (user_id)
+        
 );
 """
-
 
 sample_insert = """
 INSERT INTO USERS (username, password) VALUES ('test1', 'testpass')
@@ -74,11 +64,14 @@ AND password = 'testpass'
 """
 
 def drop_table():
-    DB.create("DROP TABLE IF EXISTS USERS;")
+    tables = ['SKILLS', 'ROOMS_TO_SKILLS', 'ROOMS', 'ROOM', 'USERS']
+    for i in tables:
+        DB.create("DROP TABLE IF EXISTS {};".format(i))
+    print("Dropped all tables.")
 
 def query_sample():
-    DB.custom_comms(sample_insert)
-    DB.custom_comms(sample_query)
+    DB.create(sample_insert)
+    DB.create(sample_query)
     result = [x for x in DB.cursor.fetchall()]
     # Convert to string
     print("[DEBUG]: Inserting and querying test account... ", end="")
@@ -87,18 +80,17 @@ def query_sample():
         print("OK\n")
 
 try:
-    if (not APP_MODE):
+    if (APP_MODE):
         print("\n[DEBUG]: Dropped a previous user tables system... ", end="")
         drop_table()
         print("OK ")
         DB.create(comms['users'])
         query_sample()
-    print("\n[INFO]: Checking/creating user tables system... ")
+    print("[INFO]: Checking/creating user tables system... ")
     for key, val in comms.items():
         DB.create(val)
         print("\t{} done.".format(key))
     print("done.", end="\n")
+    print("[INFO]: No issues found with database setup.\n")
 except Exception as e:
-    raise e
-
-print("[INFO]: No issues found with database setup.\n")
+    print("\n[WARN]: {}\n".format(str(e)))

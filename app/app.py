@@ -10,12 +10,14 @@ api = Api(app)
 ### The Routes
 
 from src.user.Register import Register
+from src.user.Rooms import Rooms
 from src.user.Login import Login
 from src.user.Logout import Logout
 
 ##
 ## Actually setup the Api resource routing here
 ##
+api.add_resource(Rooms, '/rooms')
 api.add_resource(Register, '/user/register')
 api.add_resource(Login, '/user/login')
 api.add_resource(Logout, '/user/logout')
