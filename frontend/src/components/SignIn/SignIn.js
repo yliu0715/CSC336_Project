@@ -14,6 +14,19 @@ class SignIn extends Component {
 
   onUsernameChange = (event) => {console.log(event.target.value)}
   onPasswordChange = (event) => {console.log(event.target.value)}
+  onLogin = (event) => {
+    event.preventDefault();
+    fetch('http://localhost:5000/user/login', {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        username: this.state.username,
+        password: this.state.password
+      })
+    }).then(resp => resp.json())
+      .then(data => console.log(data))
+      .then(err => console.log(err))
+  }
 
   render() {
     return (
@@ -33,7 +46,7 @@ class SignIn extends Component {
               <Link className="nav-link" to="/Register">Don't Have an Account? Register</Link>
             </div>
             <div className="text-center mt-3">
-              <button type="submit" className="btn btn-primary btn-block">Login</button>
+              <button onClick={this.onLogin} type="submit" className="btn btn-primary btn-block">Login</button>
             </div>
           </form>
         </div>

@@ -22,9 +22,9 @@ class App extends Component {
 
   componentDidMount() {
     //This acts as a fake backend, we will replace this with fetching from our db later
-    fetch('https://jsonplaceholder.typicode.com/posts')
+    fetch('https://jsonplaceholder.typicode.com/users')
       .then(resp => resp.json())
-      .then(users => this.setState({ users }));
+      .then(users => this.setState({ users }))
   }
 
   render() {

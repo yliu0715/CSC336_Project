@@ -7,7 +7,7 @@ const ListOfRooms = (props) => {
       <div>
         {
           props.users.map(user => {
-            return <Room id={user.id} title={user.title} body={user.body} />
+            return <Room key={user.id} name={user.name} title={user.company.catchPhrase} body={user.company.bs} />
           })
         }
       </div>

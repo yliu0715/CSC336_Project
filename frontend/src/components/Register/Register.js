@@ -16,6 +16,19 @@ class Register extends Component {
   onNameChange = (event) => {this.setState({name: event.target.value})};
   onUserNameChange = (event) => {this.setState({username: event.target.value})};
   onPasswordChange = (event) => {this.setState({password: event.target.value})};
+  onRegister = (event) => {
+    event.preventDefault();
+    fetch('http://localhost:5000/user/register', {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        username: this.state.username,
+        password: this.state.password
+      })
+    }).then(resp => resp.json())
+      .then(data => console.log(data))
+      .catch(err => console.log(err));
+  }
 
   render() {
     return (
@@ -39,7 +52,7 @@ class Register extends Component {
               <Link className="nav-link" to="/Login">Already Have an Account? Login</Link>
             </div>
             <div className="text-center mt-3">
-              <button type="submit" className="btn btn-primary btn-block">Register</button>
+              <button onClick={this.onRegister} type="submit" className="btn btn-primary btn-block">Register</button>
             </div>
           </form>
         </div>

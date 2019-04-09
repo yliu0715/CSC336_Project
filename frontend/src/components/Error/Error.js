@@ -4,7 +4,7 @@ import './Error.css';
 
 const Error = () => {
   return (
-    <div class="center-text">
+    <div className="center-text">
       <h1>
         404 Not Found
       </h1>
