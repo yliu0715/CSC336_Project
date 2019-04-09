@@ -13,6 +13,7 @@ class Login(Resource):
         try:
             res = check_credentials(json_data)
         except Exception as e:
+            print(str(e))
             response = jsonify({"msg": "Wrong user/pass"})
             response.status_code = 401
             return response

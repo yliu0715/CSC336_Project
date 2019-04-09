@@ -7,8 +7,8 @@ def check_credentials(params):
 
     DB = DB_CONN()
     username = params['username'].lower()
-    hashed = bcrypt.hashpw(params['password'].encode('utf8'), bcrypt.gensalt())
-    
+    password = params['password'].encode('utf8')
+
     query = """
     SELECT * FROM USERS WHERE username = %s;
     """
@@ -16,7 +16,8 @@ def check_credentials(params):
     try:
         DB.cursor.execute(query, (username,))
         DB.cnx.commit()
-        if (DB.cursor.fetchall()[0]['password'] == hashed):
+        hashed = DB.cursor.fetchall()[0]['password']
+        if (bytearray(bcrypt.hashpw(password, hashed)) == hashed):
             return True
     except:
         pass

@@ -13,7 +13,7 @@ class Register(Resource):
         try:
             create = create_new_user(json_data)
         except Exception as e:
-            response = jsonify({"msg": str(e)})
+            response = jsonify({"msg": "Error with registering that username. Maybe you've already registered?"})
             response.status_code = 409
             return response
 
