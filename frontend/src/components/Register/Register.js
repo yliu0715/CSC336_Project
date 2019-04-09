@@ -26,7 +26,14 @@ class Register extends Component {
         password: this.state.password
       })
     }).then(resp => resp.json())
-      .then(data => console.log(data))
+      .then(data => {
+        const message = data.msg;
+        if(message === 'Registration complete') {
+          this.props.onRegisterChange();
+          this.props.history.push('/');
+        }
+        else alert(message);
+      })
       .catch(err => console.log(err));
   }
 

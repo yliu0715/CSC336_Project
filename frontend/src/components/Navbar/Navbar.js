@@ -13,7 +13,7 @@ const Navbar = (props) => {
           </ul>
           <ul className="navbar-nav">
             <li className="nav-item dropdown">
-              <a className="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">My Account</a>
+              <div className="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown" style={{cursor: 'pointer'}}>My Account</div>
               <div className="dropdown-menu">
                 <Link className="dropdown-item" to="#">My Profile</Link>
                 <Link className="dropdown-item" to="#">My Rooms</Link>
