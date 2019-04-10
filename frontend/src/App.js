@@ -9,6 +9,7 @@ import Roompage from './components/Roompage/Roompage';
 import SignIn from './components/SignIn/SignIn';
 import Error from './components/Error/Error';
 import Profile from './components/Profile/Profile';
+import CreateRoom from './components/CreateRoom/CreateRoom';
 
 class App extends Component {
   constructor() {
@@ -42,6 +43,7 @@ class App extends Component {
           <Route path="/register" render={(props) => <Register {...props} onRegisterChange={ this.onRegisterOrLoginChange } /> } />
           <Route path="/login" render={(props) => <SignIn {...props} onLoginChange={ this.onRegisterOrLoginChange } /> } />
           <Route path="/roompage" render={(props) => <Roompage room={ this.state.room } /> } />
+		  <Route path="/createroom" render={(props) => <CreateRoom /> } />
           <Route component={Error} />
         </div>
       </Router>

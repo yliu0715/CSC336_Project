@@ -56,7 +56,7 @@ class Register extends Component {
               <input type="password" className="form-control" placeholder="Enter Password" onChange={this.onPasswordChange}/>
             </div>
             <div>
-              <Link className="nav-link" to="/Login">Already Have an Account? Login</Link>
+              <Link to="/Login">Already Have an Account? Login</Link>
             </div>
             <div className="text-center mt-3">
               <button onClick={this.onRegister} type="submit" className="btn btn-primary btn-block">Register</button>
