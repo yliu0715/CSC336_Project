@@ -53,6 +53,7 @@ class App extends Component {
           <Route path="/roompage" render={(props) => <Roompage room={ this.state.room } /> } />
 
           <Route path="/profile" render={(props) => <Profile currentUser={ this.state.currentUser } /> } />
+          <Route path="/createroom" render={(props) => <CreateRoom /> } />
 
           <Route component={Error} />
         </div>
