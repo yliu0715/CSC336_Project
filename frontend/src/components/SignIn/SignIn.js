@@ -28,6 +28,14 @@ class SignIn extends Component {
         const message = data.msg;
         if(message === 'Logged in.') {
           this.props.onLoginChange();
+          fetch('http://localhost:5000/user/profile', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              username: this.state.username
+            })
+          }).then(resp => resp.json())
+            .then(data => console.log(data));
           this.props.history.push('/');
         }
         else alert(message);

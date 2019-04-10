@@ -18,7 +18,7 @@ constructor(props){
     const { room } = this.state;
     event.preventDefault();
     console.log(room);
-    
+
     fetch(`http://localhost:5000/rooms/${this.state.room}`, {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
@@ -59,9 +59,9 @@ constructor(props){
             <li className="nav-item dropdown">
               <div className="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown" style={{cursor: 'pointer'}}>My Account</div>
               <div className="dropdown-menu">
-                <Link className="dropdown-item" to="#">My Profile</Link>
+                <Link className="dropdown-item" to="/profile">My Profile</Link>
                 <Link className="dropdown-item" to="#">My Rooms</Link>
-                <button className="dropdown-item" onClick={this.props.onLogOut}>Logout</button>
+                <a href="/" className="dropdown-item" onClick={props.onLogOut}>Logout</a>
               </div>
             </li>
           </ul>
