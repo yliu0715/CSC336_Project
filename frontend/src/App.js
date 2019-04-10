@@ -8,6 +8,7 @@ import Register from './components/Register/Register';
 import Roompage from './components/Roompage/Roompage';
 import SignIn from './components/SignIn/SignIn';
 import Error from './components/Error/Error';
+import Profile from './components/Profile/Profile';
 
 class App extends Component {
   constructor() {
