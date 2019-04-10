@@ -10,33 +10,6 @@ constructor(props){
   }
 }
 
-  onSeachBar = (event) => {
-    this.setState({room: event.target.value});
-  };
-
-  onSearch = (event) => {
-    const { room } = this.state;
-    event.preventDefault();
-    console.log(room);
-
-    fetch(`http://localhost:5000/rooms/${this.state.room}`, {
-      method: 'post',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        room: this.state.room,
-      })
-    }).then(resp => resp.json())
-      .then(data => {
-        const message = data.msg;
-        if(message === 'Search complete') {
-          this.props.onRegisterChange();
-          this.props.history.push('/');
-        }
-        else alert(message);
-      })
-      .catch(err => console.log(err));
-  }
-
   render(){
   return (
     this.props.authenticated ?
@@ -61,7 +34,7 @@ constructor(props){
               <div className="dropdown-menu">
                 <Link className="dropdown-item" to="/profile">My Profile</Link>
                 <Link className="dropdown-item" to="#">My Rooms</Link>
-                <a href="/" className="dropdown-item" onClick={props.onLogOut}>Logout</a>
+                <a href="/" className="dropdown-item" onClick={this.props.onLogOut}>Logout</a>
               </div>
             </li>
           </ul>
