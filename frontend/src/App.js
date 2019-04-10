@@ -14,13 +14,17 @@ class App extends Component {
     super();
     this.state = {
       users : [],
-      authenticated : true
+      room: {},
+      authenticated : false
     }
   }
 
   onLogOut = () => this.setState( { authenticated : false } );
-  onRegisterOrLoginChange = (event) => this.setState( {authenticated: true });
-
+  onRegisterOrLoginChange = () => this.setState( { authenticated : true });
+  onRoomClick = (room) => {
+    console.log(room);
+    this.setState ( { room } );
+  }
   componentDidMount() {
     //This acts as a fake backend, we will replace this with fetching from our db later
     fetch('https://jsonplaceholder.typicode.com/users')
@@ -33,10 +37,10 @@ class App extends Component {
       <Router>
         <div className="App">
           <Navbar authenticated={ this.state.authenticated } onLogOut={ this.onLogOut } />
-          <Route exact path="/" render={(props) => <HomePage users={ this.state.users } /> } />
+          <Route exact path="/" render={(props) => <HomePage {...props} users={ this.state.users } onRoomClick={ this.onRoomClick } /> } />
           <Route path="/register" render={(props) => <Register {...props} onRegisterChange={ this.onRegisterOrLoginChange } /> } />
           <Route path="/login" render={(props) => <SignIn {...props} onLoginChange={ this.onRegisterOrLoginChange } /> } />
-          <Route path="/roompage" component={Roompage} />
+          <Route path="/roompage" render={(props) => <Roompage room={ this.state.room } /> } />
           <Route component={Error} />
         </div>
       </Router>
