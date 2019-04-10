@@ -2,7 +2,7 @@
 from .DB_CONN import DB_CONN
 import time, os
 
-APP_MODE = os.getenv('DEBUG', True)
+APP_MODE = os.getenv('DEBUG', False)
 
 try:
     DB = DB_CONN()
@@ -16,6 +16,8 @@ comms['users'] = """
 CREATE TABLE IF NOT EXISTS USERS (
     user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
+    firstname VARCHAR(255),
+    lastname VARCHAR(255),
     password VARBINARY(255) NOT NULL
 );
 """
@@ -24,7 +26,7 @@ CREATE TABLE IF NOT EXISTS USERS (
 #### Loading the Rooms TABLE DB
 comms['room_info'] = """
 CREATE TABLE IF NOT EXISTS ROOM (
-    name VARCHAR(255) PRIMARY KEY,
+    room_name VARCHAR(255) PRIMARY KEY,
     location VARCHAR(255),
     description TEXT
 );
@@ -32,23 +34,22 @@ CREATE TABLE IF NOT EXISTS ROOM (
 
 comms['skills'] = """
 CREATE TABLE IF NOT EXISTS SKILLS (
-    name VARCHAR(255) NOT NULL,
+    skill_name VARCHAR(255) NOT NULL,
     room_name VARCHAR(255),
-    FOREIGN KEY (room_name) REFERENCES ROOM (name)
+    FOREIGN KEY (room_name) REFERENCES ROOM (room_name)
 );
 """
 
 #### Loading the Rooms TABLE DB
 comms['rooms'] = """
 CREATE TABLE IF NOT EXISTS ROOMS (
-    room VARCHAR(255),
+    room_name VARCHAR(255),
     user_id INT,
     is_owner BOOLEAN DEFAULT 0,
 
-    FOREIGN KEY (room) REFERENCES ROOM (name),
+    FOREIGN KEY (room_name) REFERENCES ROOM (room_name),
     FOREIGN KEY (user_id) 
         REFERENCES USERS (user_id)
-        
 );
 """
 

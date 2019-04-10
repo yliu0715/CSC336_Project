@@ -3,6 +3,70 @@ from flask import Flask, jsonify, request
 from src.db.DB_CONN import DB_CONN
 import bcrypt, random
 
+def update_user_file(param):
+    username = param['username']
+    firstname = param['firstname']
+    lastname = param['lastname']
+
+    DB = DB_CONN()
+
+    query = """
+    UPDATE USERS 
+       SET firstname = %s, lastname = %s
+       WHERE username = %s;
+    """
+
+    try:
+        DB.cursor.execute(query, (firstname, lastname, username))
+        DB.cnx.commit()
+        return DB.cursor.fetchall() 
+    except Exception as e:
+        raise e
+
+    return None
+
+def get_rooms_info_verbose(roomname):
+
+    DB = DB_CONN()
+    # ROOMS >> ROOM >> USERS >> SKILLS
+    query = """
+    SELECT USERS.username, USERS.user_id,
+            ROOMS.is_owner, ROOMS.room_name,
+            ROOMS.user_id, ROOM.room_name,
+            ROOM.location, ROOM.description,
+            SKILLS.skill_name, SKILLS.room_name
+        FROM ROOMS 
+        INNER JOIN ROOM 
+            ON ROOMS.room_name = ROOM.room_name
+        INNER JOIN USERS 
+            ON ROOMS.user_id = USERS.user_id
+        INNER JOIN SKILLS
+            ON ROOMS.room_name = SKILLS.room_name
+        WHERE ROOM.room_name = %s;
+    """
+    try:
+        DB.cursor.execute(query, (roomname,))
+        DB.cnx.commit()
+        return DB.cursor.fetchall() 
+    except Exception as e:
+        raise e
+
+    return None
+
+def get_user_profile(username):
+    DB = DB_CONN()
+    query = """
+    SELECT * FROM USERS WHERE username = %s;
+    """
+    try:
+        DB.cursor.execute(query, (username,))
+        DB.cnx.commit()
+        return DB.cursor.fetchall() 
+    except Exception as e:
+        raise e
+
+    return None
+
 def check_credentials(params):
 
     DB = DB_CONN()
@@ -51,16 +115,19 @@ def get_all_data():
     query = """
     SELECT USERS.user_id, USERS.username,
             ROOMS.user_id, ROOMS.is_owner,
-            ROOMS.room, ROOM.name,
+            ROOMS.room_name, ROOM.room_name,
             ROOM.location, ROOM.description
-            FROM ROOMS NATURAL JOIN USERS
-            NATURAL JOIN ROOM;
+            FROM ROOMS INNER JOIN USERS
+                ON ROOMS.user_id = USERS.user_id
+            INNER JOIN ROOM
+                ON ROOMS.room_name = ROOM.room_name;
     """
 
     try:
         DB.cursor.execute(query)
         DB.cnx.commit()
     except Exception as e:
+        print("Error on get_all_data: ", end="")
         raise e
 
     return DB.cursor.fetchall()
@@ -94,13 +161,13 @@ def generate_dummy_skills():
     room_name, desc = generate_rooms()
 
     createRoom = """
-    INSERT INTO ROOM (name, description) VALUES (%s, %s)
+    INSERT INTO ROOM (room_name, description) VALUES (%s, %s)
     """
     createRooms = """
-    INSERT INTO ROOMS (room, user_id, is_owner) VALUES (%s, %s, %s)
+    INSERT INTO ROOMS (room_name, user_id, is_owner) VALUES (%s, %s, %s)
     """
     createSkills = """
-    INSERT INTO SKILLS (name, room_name) VALUES (%s, %s)
+    INSERT INTO SKILLS (skill_name, room_name) VALUES (%s, %s)
     """
 
     users = get_all_users()

@@ -10,9 +10,10 @@ api = Api(app)
 ### The Routes
 
 from src.user.Register import Register
-from src.user.Rooms import Rooms
+from src.user.Rooms import Rooms, RoomsGetInfo
 from src.user.Login import Login
 from src.user.Logout import Logout
+from src.user.Profile import Profile
 
 ##
 ## Actually setup the Api resource routing here
@@ -21,6 +22,8 @@ api.add_resource(Rooms, '/rooms')
 api.add_resource(Register, '/user/register')
 api.add_resource(Login, '/user/login')
 api.add_resource(Logout, '/user/logout')
+api.add_resource(RoomsGetInfo, '/rooms/<string:roomname>')
+api.add_resource(Profile, '/user/profile')
 
 from src.settings import *
 
