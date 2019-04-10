@@ -5,7 +5,7 @@ import ListOfRooms from '../ListOfRooms/ListOfRooms';
 const Homepage = (props) => {
   return (
     <div>
-      <ListOfRooms users={props.users} />
+      <ListOfRooms {...props} users={props.users} onRoomClick={ props.onRoomClick } />
     </div>
   )
 }
