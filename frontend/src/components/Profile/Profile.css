@@ -1,0 +1,35 @@
+.profile {
+	margin-top: 5rem;
+}
+
+.bio {
+	float: left;
+	width: 30%;
+	padding-left: 5%;
+}
+
+.bio img {
+	padding-top: 1rem;
+	max-width: 15rem;
+	max-height: 15rem;
+}
+
+.main {
+	width: 70%;
+	float: left;
+}
+
+.profile:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+h1 {
+	border-bottom: 1px solid grey;
+}
+
+.main p {
+	padding-top: 1rem;
+	font-weight: bold;
+}
