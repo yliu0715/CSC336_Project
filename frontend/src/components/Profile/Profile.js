@@ -1,22 +1,21 @@
 import React from 'react';
 import './Profile.css';
 
-const Profile = () => {
+const Profile = (props) => {
 	return(
 		<div className="profile">
 			<div className="bio">
-				<img src="https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2016/09/1473921124injection-attack.jpg" />
+				<img alt="sqli-img" src="https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2016/09/1473921124injection-attack.jpg" />
 				<p>Hello</p>
 			</div>
 			<div className="main">
 				<h1>Profile</h1>
 				<form>
 				<p>Name:</p>
-				<input type="text" name="fullname" />
-				<p>Email Address:</p>
-				<input type="email" name="email" />
-				<p>Location:</p>
-				<input type="text" name="Location" />
+				<div>{`${props.currentUser.firstname} ${props.currentUser.lastname}`}</div>
+				<p>Username:</p>
+				<div>{props.currentUser.username}</div>
+				<br />
 				<p>Skills:</p>
 				<div className="d-inline-flex flex-nowrap">
 					<div className="p-2 border align-middle">React</div>

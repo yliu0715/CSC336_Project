@@ -7,13 +7,15 @@ class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
+      firstname: "",
+      lastname: "",
       username: "",
-      password: ""
+      password: "",
     }
   }
 
-  onNameChange = (event) => {this.setState({name: event.target.value})};
+  onFirstNameChange = (event) => {this.setState({firstname: event.target.value})};
+  onLastNameChange = (event) => {this.setState({lastname: event.target.value})};
   onUserNameChange = (event) => {this.setState({username: event.target.value})};
   onPasswordChange = (event) => {this.setState({password: event.target.value})};
   onRegister = (event) => {
@@ -22,6 +24,8 @@ class Register extends Component {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
+        firstname: this.state.firstname,
+        lastname: this.state.lastname,
         username: this.state.username,
         password: this.state.password
       })
@@ -30,6 +34,12 @@ class Register extends Component {
         const message = data.msg;
         if(message === 'Registration complete') {
           this.props.onRegisterChange();
+          const currentUser = {
+            firstname: this.state.firstname,
+            lastname: this.state.lastname,
+            username: this.state.username
+          }
+          this.props.getUserOnLogin(currentUser);
           this.props.history.push('/');
         }
         else alert(message);
@@ -44,8 +54,12 @@ class Register extends Component {
           <form>
             <h2 className="text-center">Register Form</h2>
             <div className="form-group">
-              <label>Name</label>
-              <input type="text" className="form-control" placeholder="Enter Your Name" onChange={this.onNameChange}/>
+              <label>First Name</label>
+              <input type="text" className="form-control" placeholder="Enter Your First Name" onChange={this.onFirstNameChange}/>
+            </div>
+            <div className="form-group">
+              <label>Last Name</label>
+              <input type="text" className="form-control" placeholder="Enter Your Last Name" onChange={this.onLastNameChange}/>
             </div>
             <div className="form-group">
               <label>Username</label>

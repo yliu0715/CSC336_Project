@@ -15,6 +15,11 @@ class App extends Component {
     super();
     this.state = {
       users : [],
+      currentUser : {
+        firstname: '',
+        lastname: '',
+        username: ''
+      },
       room: {},
       authenticated : false
     }
@@ -22,10 +27,9 @@ class App extends Component {
 
   onLogOut = () => this.setState( { authenticated : false } );
   onRegisterOrLoginChange = () => this.setState( { authenticated : true });
-  onRoomClick = (room) => {
-    console.log(room);
-    this.setState ( { room } );
-  }
+  getUserOnLogin = (currentUser) => {this.setState( { currentUser } )};
+  onRoomClick = (room) => {this.setState ( { room } )};
+  
   componentDidMount() {
     //This acts as a fake backend, we will replace this with fetching from our db later
     fetch('https://jsonplaceholder.typicode.com/users')
@@ -39,9 +43,14 @@ class App extends Component {
         <div className="App">
           <Navbar authenticated={ this.state.authenticated } onLogOut={ this.onLogOut } />
           <Route exact path="/" render={(props) => <HomePage {...props} users={ this.state.users } onRoomClick={ this.onRoomClick } /> } />
-          <Route path="/register" render={(props) => <Register {...props} onRegisterChange={ this.onRegisterOrLoginChange } /> } />
-          <Route path="/login" render={(props) => <SignIn {...props} onLoginChange={ this.onRegisterOrLoginChange } /> } />
+          <Route path="/register" render={(props) => <Register {...props}
+                                                               getUserOnLogin={ this.getUserOnLogin }
+                                                               onRegisterChange={ this.onRegisterOrLoginChange } /> } />
+          <Route path="/login" render={(props) => <SignIn {...props}
+                                                          getUserOnLogin={ this.getUserOnLogin }
+                                                          onLoginChange={ this.onRegisterOrLoginChange } /> } />
           <Route path="/roompage" render={(props) => <Roompage room={ this.state.room } /> } />
+          <Route path="/profile" render={(props) => <Profile currentUser={ this.state.currentUser } /> } />
           <Route component={Error} />
         </div>
       </Router>
