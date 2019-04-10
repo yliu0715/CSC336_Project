@@ -58,7 +58,7 @@ class SignIn extends Component {
               <input type="password" className="form-control" placeholder="Enter Password" onChange={this.onPasswordChange}/>
             </div>
             <div>
-              <Link className="nav-link" to="/Register">{`Don't Have an Account? Register`}</Link>
+              <Link to="/Register">{`Don't Have an Account? Register`}</Link>
             </div>
             <div className="text-center mt-3">
               <button onClick={this.onLogin} type="submit" className="btn btn-primary btn-block">Login</button>
