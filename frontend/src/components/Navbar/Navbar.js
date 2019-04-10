@@ -61,7 +61,7 @@ constructor(props){
               <div className="dropdown-menu">
                 <Link className="dropdown-item" to="/profile">My Profile</Link>
                 <Link className="dropdown-item" to="#">My Rooms</Link>
-                <a href="/" className="dropdown-item" onClick={props.onLogOut}>Logout</a>
+                <a href="/" className="dropdown-item" onClick={this.props.onLogOut}>Logout</a>
               </div>
             </li>
           </ul>
