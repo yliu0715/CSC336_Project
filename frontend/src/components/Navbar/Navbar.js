@@ -1,14 +1,58 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 
-const Navbar = (props) => {
+class Navbar extends Component {
+
+constructor(props){
+  super (props);
+  this.state = {
+    room: ''
+  }
+}
+
+  onSeachBar = (event) => {
+    this.setState({room: event.target.value});
+  };
+
+  onSearch = (event) => {
+    const { room } = this.state;
+    event.preventDefault();
+    console.log(room);
+    
+    fetch(`http://localhost:5000/rooms/${this.state.room}`, {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        room: this.state.room,
+      })
+    }).then(resp => resp.json())
+      .then(data => {
+        const message = data.msg;
+        if(message === 'Search complete') {
+          this.props.onRegisterChange();
+          this.props.history.push('/');
+        }
+        else alert(message);
+      })
+      .catch(err => console.log(err));
+  }
+
+  render(){
   return (
-    props.authenticated ?
+    this.props.authenticated ?
       <div>
         <nav className="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
               <Link className="nav-link" to="/">Home</Link>
+            </li>
+            </ul>
+            <ul className="navbar-nav mr-auto">
+            <li className="nav-item">
+            <form>
+              <input type="text" className="form-control" placeholder="Search Rooms" onChange={this.onSearchBar}/>
+              <button onClick={this.onSearch} type="submit" className="btn btn-primary">Go</button>
+              </form>
             </li>
           </ul>
           <ul className="navbar-nav">
@@ -17,7 +61,7 @@ const Navbar = (props) => {
               <div className="dropdown-menu">
                 <Link className="dropdown-item" to="#">My Profile</Link>
                 <Link className="dropdown-item" to="#">My Rooms</Link>
-                <button className="dropdown-item" onClick={props.onLogOut}>Logout</button>
+                <button className="dropdown-item" onClick={this.props.onLogOut}>Logout</button>
               </div>
             </li>
           </ul>
@@ -43,5 +87,5 @@ const Navbar = (props) => {
       </div>
   )
 }
-
+}
 export default Navbar;
