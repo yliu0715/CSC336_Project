@@ -29,7 +29,7 @@ class SignIn extends Component {
         if(message === 'Logged in.') {
           this.props.onLoginChange();
           fetch('http://localhost:5000/user/profile', {
-            method: 'post',
+            method: 'patch',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
               username: this.state.username

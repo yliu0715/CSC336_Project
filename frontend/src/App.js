@@ -30,12 +30,13 @@ class App extends Component {
   onRegisterOrLoginChange = () => this.setState( { authenticated : true });
   getUserOnLogin = (currentUser) => {this.setState( { currentUser } )};
   onRoomClick = (room) => {this.setState ( { room } )};
-  
+
   componentDidMount() {
     //This acts as a fake backend, we will replace this with fetching from our db later
-    fetch('https://jsonplaceholder.typicode.com/users')
+
+    fetch('http://localhost:5000/rooms')
       .then(resp => resp.json())
-      .then(users => this.setState({ users }))
+      .then(data => this.setState({ users: data.msg }));
   }
 
   render() {
@@ -51,10 +52,8 @@ class App extends Component {
                                                           getUserOnLogin={ this.getUserOnLogin }
                                                           onLoginChange={ this.onRegisterOrLoginChange } /> } />
           <Route path="/roompage" render={(props) => <Roompage room={ this.state.room } /> } />
-
           <Route path="/profile" render={(props) => <Profile currentUser={ this.state.currentUser } /> } />
           <Route path="/createroom" render={(props) => <CreateRoom /> } />
-
           <Route component={Error} />
         </div>
       </Router>

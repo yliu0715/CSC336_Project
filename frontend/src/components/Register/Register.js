@@ -33,13 +33,24 @@ class Register extends Component {
       .then(data => {
         const message = data.msg;
         if(message === 'Registration complete') {
-          this.props.onRegisterChange();
+          fetch('http://localhost:5000/user/profile', {
+            method: 'patch',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              firstname: this.state.firstname,
+              lastname: this.state.lastname,
+              username: this.state.username
+            })
+          }).then(resp => resp.json())
+            .then(data => console.log(data));
+
           const currentUser = {
             firstname: this.state.firstname,
             lastname: this.state.lastname,
             username: this.state.username
           }
           this.props.getUserOnLogin(currentUser);
+          this.props.onRegisterChange();
           this.props.history.push('/');
         }
         else alert(message);

@@ -5,10 +5,10 @@ const ListOfRooms = (props) => {
   if (props.users) {
     let rooms = props.users.map(user => {
       return <Room {...props}
-                   key={user.id}
-                   name={user.name}
-                   title={user.company.catchPhrase}
-                   body={user.company.bs}
+                   key={user.user_id}
+                   name={user.username}
+                   title={user.room_name}
+                   body={user.description}
                    onRoomClick={props.onRoomClick}
                    user={user}
                     />
@@ -19,7 +19,7 @@ const ListOfRooms = (props) => {
       </div>
     )
   }
-  return null;
+  return <div>Loading...</div>;
 }
 
 export default ListOfRooms;

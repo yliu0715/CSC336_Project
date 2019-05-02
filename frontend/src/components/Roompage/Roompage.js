@@ -5,14 +5,14 @@ class Roompage extends Component {
   render() {
     return (
       <div className="room-detail">
-  		<h1 className="heading">{this.props.room.company.catchPhrase}</h1>
+  		<h1 className="heading">{this.props.room.room_name}</h1>
   		<div className="room-info">
   			<div className="row align-top">
   				<div className="col-sm-6">
   					<h3>Owner</h3>
-  					<p>{this.props.room.name}</p>
+  					<p>{this.props.room.username}</p>
   					<h3>Location</h3>
-  					<p>{this.props.room.address.city}</p>
+  					<p>{this.props.room.location}</p>
   				</div>
   				<div className="col-sm-6">
   					<table className="table table-hover table-dark">
@@ -36,7 +36,7 @@ class Roompage extends Component {
   				</div>
   			</div>
   			<h3>Description</h3>
-  			<p>{this.props.room.company.bs}</p>
+  			<p>{this.props.room.description}</p>
   			<h3>Required Skills</h3>
   			<div className="d-inline-flex flex-nowrap">
   				<div className="p-2 border align-middle">React</div>

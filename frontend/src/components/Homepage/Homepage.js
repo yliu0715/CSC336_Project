@@ -7,12 +7,8 @@ const Homepage = (props) => {
   return (
 	props.authenticated ?
 		<div>
-			<div>
-				<Link to="/CreateRoom">+ Create Room</Link>
-			</div>
-			<div>
+        <Link to="/CreateRoom">+ Create Room</Link>
 			  <ListOfRooms {...props} users={props.users} onRoomClick={ props.onRoomClick } />
-			</div>
 		</div>
 	:
     <div>

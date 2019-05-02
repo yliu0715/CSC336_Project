@@ -5,9 +5,6 @@ class Navbar extends Component {
 
 constructor(props){
   super (props);
-  this.state = {
-    room: ''
-  }
 }
 
   render(){
@@ -20,14 +17,6 @@ constructor(props){
               <Link className="nav-link" to="/">Home</Link>
             </li>
             </ul>
-            <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-            <form>
-              <input type="text" className="form-control" placeholder="Search Rooms" onChange={this.onSearchBar}/>
-              <button onClick={this.onSearch} type="submit" className="btn btn-primary">Go</button>
-              </form>
-            </li>
-          </ul>
           <ul className="navbar-nav">
             <li className="nav-item dropdown">
               <div className="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown" style={{cursor: 'pointer'}}>My Account</div>
