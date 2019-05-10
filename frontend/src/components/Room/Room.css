@@ -10,6 +10,8 @@
     padding:50px 100px;
     cursor:pointer;
     transition:800ms ease all;
+		overflow: auto;
+		word-wrap: break-word;
   }
 .roomButton:hover{
     background:#bfbfbf;
