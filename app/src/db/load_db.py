@@ -53,23 +53,49 @@ CREATE TABLE IF NOT EXISTS ROOMS (
 );
 """
 
+#### validate password on update
+comms['password_update'] = """
+CREATE TRIGGER password_update
+BEFORE UPDATE ON users
+FOR EACH ROW
+BEGIN
+	IF CHAR_LENGTH(NEW.password) <> 60 THEN
+        CALL validate_password(NEW.password, ENCRYPT(NEW.password));
+    END IF;
+END
+"""
+
+#### validate password on insertion
+comms['password_insert'] = """
+CREATE TRIGGER password_insert
+BEFORE INSERT ON users
+FOR EACH ROW
+BEGIN
+    IF CHAR_LENGTH(NEW.password) <> 60 THEN
+        INSERT INTO users
+        SET NEW.password = ENCRYPT(NEW.password)
+        WHERE password = NEW.password;
+    END IF;
+END
+"""
+
+#### procedure to validate password 
+comms['validate_password'] = """
+CREATE PROCEDURE validate_password (
+    IN old_password VARCHAR(60),
+    IN new_password VARCHAR(60)
+)
+UPDATE users
+    SET password = new_password;
+    WHERE password = old_password;
+"""
+
+
 #### view to get user info
 comms['user_info'] = """
 CREATE VIEW user_info AS
-   SELECT user_id, username, firstname, lastname, room_name
+   SELECT users.user_id, username, firstname, lastname, room_name
    FROM (users INNER JOIN rooms ON users.user_id = rooms.user_id);
-"""
-
-#### validate password on insertion and update
-comms['password_update'] = """
-CREATE TRIGGER password_update
-BEFORE INSERT, UPDATE OF password ON users
-FOR EACH ROW
-BEGIN
-    IF LENGTH(NEW.password) != 60 THEN
-	   SET NEW.password = encrypt(NEW.password);
-	END IF;
-END
 """
 
 sample_insert = """
