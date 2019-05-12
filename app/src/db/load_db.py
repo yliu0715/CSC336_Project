@@ -2,7 +2,7 @@
 from .DB_CONN import DB_CONN
 import time, os
 
-APP_MODE = os.getenv('DEBUG', False)
+APP_MODE = os.getenv('DEBUG', True)
 
 try:
     DB = DB_CONN()
@@ -48,9 +48,28 @@ CREATE TABLE IF NOT EXISTS ROOMS (
     is_owner BOOLEAN DEFAULT 0,
 
     FOREIGN KEY (room_name) REFERENCES ROOM (room_name),
-    FOREIGN KEY (user_id) 
+    FOREIGN KEY (user_id)
         REFERENCES USERS (user_id)
 );
+"""
+
+#### view to get user info
+comms['user_info'] = """
+CREATE VIEW user_info AS
+   SELECT user_id, username, firstname, lastname, room_name
+   FROM (users INNER JOIN rooms ON users.user_id = rooms.user_id);
+"""
+
+#### validate password on insertion and update
+comms['password_update'] = """
+CREATE TRIGGER password_update
+BEFORE INSERT, UPDATE OF password ON users
+FOR EACH ROW
+BEGIN
+    IF LENGTH(NEW.password) != 60 THEN
+	   SET NEW.password = encrypt(NEW.password);
+	END IF;
+END
 """
 
 sample_insert = """
