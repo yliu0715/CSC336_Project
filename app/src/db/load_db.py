@@ -48,8 +48,7 @@ CREATE TABLE IF NOT EXISTS ROOMS (
     is_owner BOOLEAN DEFAULT 0,
 
     FOREIGN KEY (room_name) REFERENCES ROOM (room_name),
-    FOREIGN KEY (user_id)
-        REFERENCES USERS (user_id)
+    FOREIGN KEY (user_id) REFERENCES USERS (user_id)
 );
 """
 
@@ -60,7 +59,7 @@ BEFORE UPDATE ON users
 FOR EACH ROW
 BEGIN
 	IF CHAR_LENGTH(NEW.password) <> 60 THEN
-        CALL validate_password(NEW.password, ENCRYPT(NEW.password));
+        CALL validate_password(NEW.password, ENCRYPT(NEW.password), NEW.user_id);
     END IF;
 END
 """
@@ -74,20 +73,21 @@ BEGIN
     IF CHAR_LENGTH(NEW.password) <> 60 THEN
         INSERT INTO users
         SET NEW.password = ENCRYPT(NEW.password)
-        WHERE password = NEW.password;
+        WHERE user_id = NEW.user_id;
     END IF;
 END
 """
 
-#### procedure to validate password 
+#### procedure to validate password
 comms['validate_password'] = """
 CREATE PROCEDURE validate_password (
     IN old_password VARCHAR(60),
-    IN new_password VARCHAR(60)
+    IN new_password VARCHAR(60),
+    IN id VARCHAR(60)
 )
 UPDATE users
     SET password = new_password;
-    WHERE password = old_password;
+    WHERE user_id = id;
 """
 
 

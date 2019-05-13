@@ -11,15 +11,26 @@ def update_user_file(param):
     DB = DB_CONN()
 
     query = """
-    UPDATE USERS 
+    UPDATE USERS
        SET firstname = %s, lastname = %s
        WHERE username = %s;
+    """
+
+    stored_procedure = """
+    CREATE PROCEDURE update_user(
+        IN new_firstname VARCHAR(255),
+        IN new_lastname VARCHAR(255),
+        IN user VARCHAR(255)
+    )
+    UPDATE USERS
+        SET firstname = new_firstname, lastname = new_lastname
+        WHERE username = user;
     """
 
     try:
         DB.cursor.execute(query, (firstname, lastname, username))
         DB.cnx.commit()
-        return DB.cursor.fetchall() 
+        return DB.cursor.fetchall()
     except Exception as e:
         raise e
 
@@ -35,10 +46,10 @@ def get_rooms_info_verbose(roomname):
             ROOMS.user_id, ROOM.room_name,
             ROOM.location, ROOM.description,
             SKILLS.skill_name, SKILLS.room_name
-        FROM ROOMS 
-        INNER JOIN ROOM 
+        FROM ROOMS
+        INNER JOIN ROOM
             ON ROOMS.room_name = ROOM.room_name
-        INNER JOIN USERS 
+        INNER JOIN USERS
             ON ROOMS.user_id = USERS.user_id
         INNER JOIN SKILLS
             ON ROOMS.room_name = SKILLS.room_name
@@ -47,7 +58,7 @@ def get_rooms_info_verbose(roomname):
     try:
         DB.cursor.execute(query, (roomname,))
         DB.cnx.commit()
-        return DB.cursor.fetchall() 
+        return DB.cursor.fetchall()
     except Exception as e:
         raise e
 
@@ -61,7 +72,7 @@ def get_user_profile(username):
     try:
         DB.cursor.execute(query, (username,))
         DB.cnx.commit()
-        return DB.cursor.fetchall() 
+        return DB.cursor.fetchall()
     except Exception as e:
         raise e
 
@@ -87,7 +98,7 @@ def check_credentials(params):
         pass
 
     return False
-    
+
 
 def create_new_user(params):
 
@@ -97,6 +108,14 @@ def create_new_user(params):
 
     query = """
     INSERT INTO USERS (username, password) VALUES (%s, %s)
+    """
+
+    stored_procedure = """
+    CREATE PROCEDURE create_user(
+        IN new_firstname VARCHAR(255),
+        IN new_password VARCHAR(255)
+    )
+    INSERT INTO USERS (username, password) VALUES (new_firstname, new_password);
     """
 
     try:
@@ -163,11 +182,42 @@ def generate_dummy_skills():
     createRoom = """
     INSERT INTO ROOM (room_name, description) VALUES (%s, %s)
     """
+
+    createRoom_procedure = """
+    CREATE PROCEDURE create_room(
+        IN new_room_name VARCHAR(255),
+        IN new_description VARCHAR(255)
+    )
+    INSERT INTO USERS (room_name, description) VALUES (new_room_name, new_description);
+    """
+
+
+    
     createRooms = """
     INSERT INTO ROOMS (room_name, user_id, is_owner) VALUES (%s, %s, %s)
     """
+
+    createRooms_procedure = """
+    CREATE PROCEDURE create_rooms(
+        IN new_room_name VARCHAR(255),
+        IN new_user_id INT,
+        IN owner BOOLEAN
+    )
+    INSERT INTO USERS (room_name, user_id, is_owner) VALUES (new_room_name, new_user_id, owner);
+    """
+
+
+
     createSkills = """
     INSERT INTO SKILLS (skill_name, room_name) VALUES (%s, %s)
+    """
+
+    createSkills_procedure = """
+    CREATE PROCEDURE create_skills(
+        IN new_skill_name VARCHAR(255),
+        IN new_room_name VARCHAR(255)
+    )
+    INSERT INTO SKILLS (skill_name, room_name) VALUES (new_skill_name, new_room_name);
     """
 
     users = get_all_users()
