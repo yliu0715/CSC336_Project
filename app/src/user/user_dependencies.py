@@ -152,10 +152,10 @@ def get_all_data():
     return DB.cursor.fetchall()
 
 def get_all_users():
-    global CREATED_DUMMY_DATA
-    if (CREATED_DUMMY_DATA == False):
-        generate_dummy_info()
-        CREATED_DUMMY_DATA = True
+    # global CREATED_DUMMY_DATA
+    # if (CREATED_DUMMY_DATA == False):
+    #     generate_dummy_info()
+    #     CREATED_DUMMY_DATA = True
     DB = DB_CONN()
     query = """
     SELECT user_id FROM USERS;

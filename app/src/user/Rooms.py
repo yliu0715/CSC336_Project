@@ -6,7 +6,7 @@ class Rooms(Resource):
     def get(self):
         user_data = [x['user_id'] for x in get_all_users()]
         try:
-            generate_dummy_skills() 
+            # generate_dummy_skills() 
             resp = jsonify({ "msg": get_all_data() })
             resp.status_code = 200
         except Exception as e:
@@ -18,7 +18,7 @@ class Rooms(Resource):
 class RoomsGetOne(Resource):
     def get(self, roomname):
         try:
-            data = lookup("ROOMS", 'name', roomname)
+            data = get_rooms_info_verbose(roomname)
             resp = jsonify({"msg": data})
             resp.status_code = 200
         except Exception as e:

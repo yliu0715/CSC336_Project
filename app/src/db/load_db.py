@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS ROOMS (
 #### validate password on update
 comms['password_update'] = """
 CREATE TRIGGER password_update
-BEFORE UPDATE ON users
+BEFORE UPDATE ON USERS
 FOR EACH ROW
 BEGIN
 	IF CHAR_LENGTH(NEW.password) <> 60 THEN
@@ -67,11 +67,11 @@ END
 #### validate password on insertion
 comms['password_insert'] = """
 CREATE TRIGGER password_insert
-BEFORE INSERT ON users
+BEFORE INSERT ON USERS
 FOR EACH ROW
 BEGIN
     IF CHAR_LENGTH(NEW.password) <> 60 THEN
-        INSERT INTO users
+        INSERT INTO USERS
         SET NEW.password = ENCRYPT(NEW.password)
         WHERE user_id = NEW.user_id;
     END IF;
@@ -85,7 +85,7 @@ CREATE PROCEDURE validate_password (
     IN new_password VARCHAR(60),
     IN id VARCHAR(60)
 )
-UPDATE users
+UPDATE USERS
     SET password = new_password;
     WHERE user_id = id;
 """
@@ -94,8 +94,8 @@ UPDATE users
 #### view to get user info
 comms['user_info'] = """
 CREATE VIEW user_info AS
-   SELECT users.user_id, username, firstname, lastname, room_name
-   FROM (users INNER JOIN rooms ON users.user_id = rooms.user_id);
+   SELECT USERS.user_id, username, firstname, lastname, room_name
+   FROM (USERS INNER JOIN rooms ON USERS.user_id = rooms.user_id);
 """
 
 sample_insert = """

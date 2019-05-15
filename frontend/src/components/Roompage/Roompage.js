@@ -2,7 +2,29 @@ import React, { Component } from 'react';
 import './Roompage.css'
 
 class Roompage extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			users: [],
+			owner: ""
+		}
+	}
+
+	componentDidMount() {
+		console.log(this.props.room.room_name)
+		fetch(`http://localhost:5000/rooms/${this.props.room.room_name}`)
+		.then(res => res.json())
+		.then(data => {
+			var uniqueUsers = new Set()
+			data.msg.map(item => {
+				if (item.is_owner) this.setState({ owner: item.username })
+				uniqueUsers.add(item.username)
+			})
+			this.setState({ users: [...uniqueUsers] })
+		}).then(users => {console.log(this.state.users); console.log(this.state.owner)})
+	}
   render() {
+		const {users, owner} =  this.state;
     return (
       <div className="room-detail">
   		<h1 className="heading">{this.props.room.room_name}</h1>
@@ -10,7 +32,7 @@ class Roompage extends Component {
   			<div className="row align-top">
   				<div className="col-sm-6">
   					<h3>Owner</h3>
-  					<p>{this.props.room.username}</p>
+  					<p>{owner}</p>
   					<h3>Location</h3>
   					<p>{this.props.room.location}</p>
   				</div>
@@ -22,15 +44,16 @@ class Roompage extends Component {
   							</tr>
   						</thead>
   						<tbody>
-  							<tr>
-  								<td>A User</td>
-  							</tr>
-  							<tr>
-  								<td>Another User</td>
-  							</tr>
-  							<tr>
-  								<td>One More</td>
-  							</tr>
+								{users && users.map(user => {
+									if (user === owner) {
+										return (<div >
+											<th>{user}⭐</th>
+											</div>)
+									}
+									return (<div >
+										<th>{user}</th>
+										</div>)
+								})}
   						</tbody>
   					</table>
   				</div>
