@@ -2,7 +2,7 @@
 from .DB_CONN import DB_CONN
 import time, os
 
-APP_MODE = os.getenv('DEBUG', True)
+APP_MODE = os.getenv('DEBUG', False)
 
 try:
     DB = DB_CONN()
